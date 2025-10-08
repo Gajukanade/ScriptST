@@ -1,47 +1,47 @@
-name: Run Selenium Test Every 5 Minutes
+# name: Run Selenium Test Every 5 Minutes
 
-on:
-  schedule:
-    - cron: "*/5 * * * *" # every 5 minutes UTC
-  workflow_dispatch: # optional manual trigger
+# on:
+#   schedule:
+#     - cron: "*/5 * * * *" # every 5 minutes UTC
+#   workflow_dispatch: # optional manual trigger
 
-jobs:
-  run-selenium-test:
-    runs-on: ubuntu-latest
+# jobs:
+#   run-selenium-test:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
 
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 23
+#       - name: Set up Java
+#         uses: actions/setup-java@v4
+#         with:
+#           distribution: temurin
+#           java-version: 23
 
-      - name: Log run info
-        run: echo "Workflow triggered at $(date -u) UTC"
+#       - name: Log run info
+#         run: echo "Workflow triggered at $(date -u) UTC"
 
-      - name: Run Selenium Test
-        run: mvn clean test verify --batch-mode
+#       - name: Run Selenium Test
+#         run: mvn clean test verify --batch-mode
 
-      - name: Upload XML reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: surefire-xml-reports
-          path: target/surefire-reports/
+#       - name: Upload XML reports
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: surefire-xml-reports
+#           path: target/surefire-reports/
 
-      - name: Upload HTML report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: surefire-html-report
-          path: target/site/surefire-report.html
+#       - name: Upload HTML report
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: surefire-html-report
+#           path: target/site/surefire-report.html
 
-      - name: Upload screenshots
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: screenshots
-          path: target/screenshots/
+#       - name: Upload screenshots
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: screenshots
+#           path: target/screenshots/
