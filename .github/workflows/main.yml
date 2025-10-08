@@ -1,0 +1,24 @@
+name: Run Selenium Test Every 10 Minutes
+
+on:
+  schedule:
+    # Every 10 minutes
+    - cron: "*/10 * * * *"
+  workflow_dispatch:  # Allows manual trigger too
+
+jobs:
+  run-selenium-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 23
+
+      - name: Run Selenium Test
+        run: mvn test --batch-mode
