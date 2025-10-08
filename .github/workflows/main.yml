@@ -2,35 +2,29 @@ name: Run Selenium Test Every 5 Minutes
 
 on:
   schedule:
-    # Every 5 minutes
-    - cron: "*/5 * * * *"
-  workflow_dispatch: {}  # manual trigger
+    - cron: "*/5 * * * *" # every 5 minutes UTC
+  workflow_dispatch: # optional manual trigger
 
 jobs:
   run-selenium-test:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2️⃣ Set up Java
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 23
 
-      # 3️⃣ Show UTC timestamp
       - name: Log run info
         run: echo "Workflow triggered at $(date -u) UTC"
 
-      # 4️⃣ Run Selenium TestNG tests
       - name: Run Selenium Test
         run: mvn clean test verify --batch-mode
 
-      # 5️⃣ Upload XML reports
       - name: Upload XML reports
         if: always()
         uses: actions/upload-artifact@v4
@@ -38,7 +32,6 @@ jobs:
           name: surefire-xml-reports
           path: target/surefire-reports/
 
-      # 6️⃣ Upload HTML report
       - name: Upload HTML report
         if: always()
         uses: actions/upload-artifact@v4
@@ -46,7 +39,6 @@ jobs:
           name: surefire-html-report
           path: target/site/surefire-report.html
 
-      # 7️⃣ Optional: Upload screenshots
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v4
